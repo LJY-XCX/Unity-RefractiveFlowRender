@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a40ef07b8494a443f95f90637aab250d
+labels:
+- ObiCloth
+timeCreated: 1479829745
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: ed5d800708edf473698ac176a2cea311, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

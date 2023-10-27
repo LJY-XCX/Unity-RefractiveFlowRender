@@ -1,0 +1,663 @@
+# Change Log
+All notable changes to “Obi - Advanced cloth for Unity” will be documented in this file.
+
+## [6.2]
+
+#IMPORTANT: If updating from an older version, you’ll need to readjust collision filtering in your scenes.
+Phase-based collision filtering has been replaced by mask/categroy based system.
+
+### Added
+- New spatial query API, that allows to perform efficient distance, overlap and raycast queries.
+- New ClothRaycast sample scene showcasing the raycast API
+
+### Changed
+- Collision phase filtering has been replaced by a category/mask system. If you upgrade existing projects to Obi 6.2, you will have to set up categories and masks appropiately.
+
+## [6.1]
+
+### Added
+- New GoalNet sample scene, showcasing temporally and spatially continuous collision detection.
+
+### Fixed
+- Bug in Oni backend: collision stickiness resulted in rapid particle separation from the collision surface.
+- Bug in ObiContactGrabber when used together with surface collisions.
+- Bug that caused NaN velocity assignments to rigidbodies after removing all actors from a solver.
+
+### Changed
+- Decreased minimum error in distance fields to 1e-07
+
+## [6.0.1]
+
+### Fixed
+- Bug in Burst backend, resulting in InvalidOperationException when enabling Burst safety checks.
+- Bug in ObiSolver that caused particleToActor array entries to be null. 
+
+## [6.0]
+
+### Added
+- Optional simplex-based surface collion pipeline for more accurate collision detection/response.
+- Predictive variable-step constraint solving that makes syncing Unity's physics no longer necessary when using substeps.
+- Amount of CCD is now adjustable per-solver.
+- Collision margin is now adjustable per-solver.
+- Bend and bend/twist constraints now support plasticity.
+- One-sided collision detection between particles. Particles with one-sided collision detection will always project penetrating particles to the side defined by their associated normal.
+
+### Fixed
+- Bug in dynamic particle attachments that would case colliders parented under a solver to lose their attachments upon enabling/reenabling a solver.
+
+### Changed
+- Contacts "particle" and "other" have been renamed to "bodyA" and "bodyB". bodyB might be a simplex or collider index, depending on the contact type. To access
+particle indices from simplex indices, use the solver.simplices array.
+
+## [5.6.2]
+
+### Fixed
+- Missed collisions using certain meshes for MeshColliders, due to a bug in bounding interval hierarchy generation.
+- Fixed out of bounds exception in tearable cloth, when there's more than 1 tearable cloth in the scene right from the start.
+
+
+## [5.6.1]
+
+### Fixed
+- Bug in Burst backend: solver bounding box size was typically underestimated.
+- Bug in Burst backend: when using volume constraints: "InvalidOperationException: The NativeContainer ApplyVolumeConstraintsBatchJob.particleIndices has not been assigned or constructed"
+- Bug in Burst backend: not releasing native arrays when empty solvers -with zero actors in them- are present in the scene.
+- Bug in Oni backend: volume constraints not working properly when multiple actors are present in the solver.
+- Fixed crash when using ObiLateUpdater or ObiLateFixedUpdater with the Burst backend.
+- Reduced GC allocation in dynamic particle attachments.
+- Fixed bug in Skin constraints, that caused them to fail restricting particle movement in certain circumstances.
+
+### Changed
+- Updated Oni iOS library to XCode 12.1. Make sure to use XCode 12.1 or up to build for iOS when using the Oni backend.
+- ObiKinematicVelocities component has been removed. Its functionality is now built into the engine, and automatically used for kinematic rigidbodies.
+
+### Added
+- Sample ObiContactDispatcher component, that will call custom enter/stay/exit contact events.
+- Support for multiple solvers in sample script in ObiContactGrabber.
+- Added util LookAroundCamera component.
+
+## [5.6]
+
+### Added
+- Faster SDF generation.
+- New sample scene.
+
+### Fixed
+- Bug that causes out of bounds access when dinamically adding/removing colliders at runtime.
+- Different behavior of skin constraint compliance for Burst and Oni backends. Now both behave like the Burst backend did in 5.5.
+- Bug that prevented stitch constraints from working first time they were enabled.
+- Offset in particle selection brush on high density screens.
+
+### Changed
+- Constraint batches of multiple actors are now merged together. This greatly reduces the amount of dispatched jobs and improves performance on both backends.
+- Colliders no longer have a "use distance fields" boolean value, they will always use the SDF as long as they have one.
+
+## [5.5]
+
+### Added
+- Backend system: abstracts the underlying particle-based physics engine used. To the native, built-in engine (Oni), we have added a Burst-based implementation that
+will run on all platforms supported by Burst.
+
+## [5.4]
+
+### Fixed
+- Bug that caused a crash when using Obi in conjunction with Mirror networking system (NetworkIdentity component).
+- Bug that could cause a crash when disabling an actor under a disabled solver.
+
+### Changed
+- Recompiled iOS libraries using XCode 11.3.1, to circumvent bitcode compatibility issues now that XCode 11.4 and up have a bug that cause linking against Obi to fail. 
+
+### Changed
+
+## [5.3]
+
+### Added
+- Greatly increased numerical precision for rigidbody interaction when solvers are far away from the origin.
+- ObiSkinnedClothRenderers now correctly honor shadow receive/cast settings of their skinned mesh renderer.
+- 2D colliders now span infinitely in the Z axis.
+
+### Changed
+- Updated backface Standard shader.
+
+### Fixed
+- Issue in the ObiStitcher editor that picked up incorrect particles when adding stitches.
+- Issue that caused a 1-frame delay for collider geometry parented inside a solver.
+- Issue in ObiParticleDragger that caused incorrect behavior with multiple solvers.
+- Bug in particle advection, that assumed diffuse particle positions to be expreseed in world space. Now advection works correctly
+for solvers not positioned at 0,0,0.
+
+## [5.2]
+
+### Added
+- Per-particle paintable tear resistance for ObiTearableClothBlueprint.
+- Cloth tear callback (cloth.OnClothTorn)
+- Function to reset particle positions orientations and and velocities in an actor (actor.ResetParticles())
+
+### Fixed
+- Issue that caused cloth to disappear in Android builds, when having "Optimize Mesh Data" enabled in player settings.
+- Fixed issue that prevented having multiple skinned cloth actors under the same solver.
+- Issue with inertia rotations, that caused wrong inertia tensors for complex compound colliders.
+- Issue in particle attachments, that forced to call Bind() manually after changing their target or particle group at runtime.
+
+
+## [5.1]
+
+### Added
+- Smooth initial overlap resolution by using clamped depenetration velocity.
+- Actors now automatically create a solver root when editing them in prefab mode.
+- Brought back cloth mesh baking functionality.
+- Submesh support for ObiSkinnedClothRenderer.
+- Error message in the blueprint editor UI when the input mesh is not readable, along with a "Fix now" button for convenience.
+
+### Fixed
+- Bug that caused solvers with no actors in their hierarchy to freeze Unity when updated by a fixed updater.
+- Bug that prevented multiple collider in the same objects to be notified of transform changes.
+
+## [5.0]
+
+#IMPORTANT: You’ll need to re-create all your 4.x ObiCloth components. Data serialization and workflows are significantly different from previous versions.
+
+### Changed
+- Introduced blueprints: particle/constraint object representations are now stored in assets called "blueprints" (as opposed to being stored in the actor itself, as in previous versions). This improves
+memory consumption, editor performance, completely separates data from the runtime components that operate on it, and enables easier and faster workflow.
+- Simplified underlying engine, constraints are grouped in batches using graph coloring for optimal parallelism.
+- Unified handles and pin constraints as "attachments".
+- Pin and distance constraints now report forces in Newtons.
+- Unitless "Stiffness" parameters have been replaced by "Compliance" parameters in most constraint types, expressed in Newtons/meter.
+
+### Added
+- Particle property to texture export.
+
+### Removed
+- World space/local space simulation. Simulation is now always performed in solver space.
+- Solvers no longer have a maxParticles attribute. They dynamically change their capacity at runtime.
+
+### Fixed
+- Crash in certain iOS devices using the A12 cpu.
+
+
+## [4.2]
+
+### Added
+- Remade all sample scenes to work in Unity 2019.1 and above.
+- Adapted character cloth to work with 2019.1 and above, due to an undocumented change in the way Unity assigns bone weights to meshes.
+
+## [4.1]
+
+#IMPORTANT: You’ll need to re-create all your 3.x ObiCloth components, as internal data layout of previous versions as well as serialized GameObject data from previous versions is not compatible with 4.x.
+
+### Added
+- Now you can bake cloth mesh anytime, saving it as a new mesh asset in your project. Useful for set dressing and generating static geometry.
+- More accurate collision/contact model, using staggered projections.
+- Approximate shock propagation for particle contacts. This makes particle stacking easier and stabler. A new parameter has been added to the solver that controls the amount of shock propagation.
+- Split material friction into static and dynamic friction.
+- Added rolling contacts w/ rolling friction. These are slightly more expensive than regular contacts. Can be controlled on a per-collision material basis.
+- Added ObiInstancedParticleRenderer, allows to draw particles as instances of an arbitrary mesh (requires GPU instancing).
+- Callback when tearable cloth is torn.
+- Particle-particle collision callbacks (solver.OnParticleCollision)
+
+### Changed
+- More reliable, higher precision algorithm for distance field generation. Specially noticeable in sharp corners/crevices.
+
+### Fixed
+- Issue that caused having multiple ObiAnimationControllers to update only the first one.
+- Bug that caused mesh colliders with negative thickness to crash.
+- Bug that caused redundant removal of cloth actors from solver to eventually crash.
+
+## [4.0.2]
+
+#IMPORTANT: You’ll need to re-create all your 3.x ObiCloth components, as internal data layout of previous versions as well as serialized GameObject data from previous versions is not compatible with 4.x.
+
+### Changed
+- Switched the Windows compiler to Clang/LLVM, resulting in a huge performance improvement.
+
+### Fixed
+- Null ref exception when copying a ObiCloth component.
+- Issue with pin constraints overshooting when solver set to world space mode.
+- Issue that prevented pin constraints being torn.
+
+## [4.0]
+
+#IMPORTANT: You’ll need to re-create all your 3.x ObiCloth components, as internal data layout of previous versions as well as serialized GameObject data from previous versions is not compatible with 4.x.
+
+### Changed
+- All particle buffers (positions, velocities, etc). are now shared between C++/C# using pointers to aligned memory. This completely eliminates the need for copying data back and forth, simplifies the API
+  and improves performance. The entire Oni.Get/SetParticle* family of methods has disappeared, now you can work with the particle buffers directly.
+- Achieved zero garbage generation trough the use of new Unity API for camera frustum planes.
+
+### Fixed
+- Null ref exception when initializing a disabled actor.
+- Bug that caused XPBD to be time step dependent.
+
+## [3.5]
+
+### Added
+- Support for 32 and 64 bit Linux architectures.
+- Two-way rigidbody interaction for local-space solvers.
+- Added world inertia scale.
+- ObiCollider now takes a reference to a Collider, enabling the use of multiple colliders in the same GameObject.
+
+### Changed
+- Separated world velocity scale into linear and angular components.
+- World velocity scale is no longer specified per-actor, but per-solver.
+- Better ObiProfiler: it now shows a per-thread pyramid diagram of internal jobs, with more human-readable names.
+
+### Removed
+- Solvers no longer have a Collision Layers property. All solvers share the same colliders. Note that you can still use phases to ignore collisions with certain colliders.
+- Local space solvers no longer need their own copy of each ObiCollider in the scene, they can all share the same colliders. This results in much higher performance for multiple local-space solvers.
+
+### Fixed
+- Added (float3x3) typecast to particle shaders, to be GLES friendly.
+- Crash in triangle skinmap editor, when loading a new scene while being inside the editor.
+
+## [3.4]
+
+### Added
+- Support for initial scale. You can now have cloth with non-uniform, non-unit scaling, and its current shape at initialization will be regarded as its rest shape. 
+Any scaling applied aftwards will behave as it did pre-3.4: it will only affect fixed particles.
+- Added tear rate parameter to tearable cloth: limits the amount of edges torn per frame.
+
+### Changed
+- Better ObiClothDragger. It now uses a dampened spring force to move cloth particles towards the picking target.
+
+### Fixed
+- Bug that required to disable and re-enable ObiParticleRenderer when moving the actor to a new solver.
+- Bug that caused rigidbodies to sometimes accelerate unnaturally when having multiple solvers in the scene.
+- Bug that caused twitching when performing more than 1 physics step per frame when using handles.
+
+## [3.3.1]
+
+### Fixed
+- Removed unused variable warnings introduced in 3.3
+- Fixed null ref exception when creating a new distance field asset.
+- Fixed crash when using multiple solvers in different update modes.
+- Fixed some sample scenes lacking collision due to missing distance field.
+
+## [3.3]
+
+### Added
+- Support for 2D rigidbody coupling has been brought back.
+- Added substepping to the core solver. This allows to update each solver at a different frequency, and decouple the Obi 
+  physics loop from Unity’s.
+- New implementation of fine-grained parallel tasks in core solver, that boosts performance up to x1.5.
+- ObiCollider automatically creates ObiRigidbody component if needed when reparenting it.
+- Support for a new collision primitive: distance fields.
+- Helper script (ObiKinematicVelocities) that calculates angular and linear velocities for kinematic rigidbodies that are transformed around. Useful
+  for continuous collision detection and friction effects against objects that are being moved around using their transform instead of forces.
+
+### Changed
+- Near-zero garbage generation for OnCollision and ObFluidUpdated solver events.
+- 80% garbage generation reduction for character cloth.
+- Constraints.GetBatches() now returns an IEnumerable. This means it cannot be accesed by index. There’s a helper method GetFirstBatch() that returns
+the correctly typed first batch, or null if there’s none.
+
+### Fixed
+- Null reference exception in pin constraints when visualization is enabled.
+- Bug that caused asleep particles to miss collisions upon reactivation.
+- Bug that caused “triangle soups” when tearing meshes with uv seams.
+
+## [3.2]
+
+### Added
+- Support for CapsuleCollider2D.
+
+### Changed
+- Colliders/rigidbodies are no longer copied over to the C++ library each frame. Instead, only colliders that have their transform or any collision-related property altered are copied to the solver. This greatly improves performance when many colliders are present, and greatly reduces memory allocation and GC activity.
+- AllocateParticles() and FreeParticles() have been merged with AddActor() and RemoveActor() respectively. A new per-particle array “particleToActor” makes it faster and easier to know which actor a particle belongs to.
+
+### Removed
+- ObiCollisionGroup has disappeared. It is no longer necessary to manually add colliders to a group, instead each ObiSolver automatically picks up all ObiColliders in a given layer.
+- MeshColliders are now always treated as two-sided thin concave meshes. Solid and one-sided modes have disappeared.
+
+### Fixed
+- Bug in skin constraint normal calculation that caused particle jittering with some bind pose matrices.
+- Android issue that prevented some devices from finding the Oni library.
+- Removed redundant menu items.
+
+## [3.1.1]
+### Changed
+- Installation is no longer required. Obi now works right out of the box, so the installation window has been removed, and the “Editor default resources” and “Gizmos” folders removed.
+- Particle renderer is now much faster and also allocates less memory.
+
+## [3.1]
+### Added
+- You can now choose where should the solver be updated: FixedUpdate, AfterFixedUpdate, or LateUpdate.
+- Handles now work with skinned meshes too.
+- Volume constraints now work with skinned meshes too.
+- Support for triggers. A trigger collider will generate contact constraints, but won´t enforce them.
+- Contact structs returned by the OnCollision event now include the contact tangent and bitangent vector.
+- Added per-particle layer properties, for finer collision control.
+
+### Changed
+- Faster and more accurate rigidbody impulse application, which results in better collision resolution.
+- Greatly improved pin constraint stability for large mass ratios.
+- ObiColliderGroup’s Colliders and Colliders2D properties are now plain arrays: “colliders” and “colliders2D”.
+- Pin constraints are now always drawn in particle edit mode, not only when the particles are selected.
+- ObiParticleRenderer memory allocation has been greatly reduced, and its performance improved.
+
+### Fixed
+- ObiClothPicker now works correctly when the solver is set to simulate in local space.
+- Issue that caused particles with zero skin constraint radius to lag slightly behind the skinned mesh.
+- Bug that caused improper starting particle positions for skinned cloth.
+- Crash when using meshes with no tangents, but “Import tangents” enabled in the import settings.
+- Bug that caused TriangleSkinMap editor to close immediately upon entering, if more than one inspector window was present.
+- Mesh normals and tangents weren’t properly reset when rewinding simulation in the particle editor.
+
+## [3.0.5]
+### Fixed
+- Memory alignment bug that could cause a crash when using skinned cloth.
+- Potential bug in GCHandle deallocation affecting upcoming Unity versions (thanks to the guys at Unity for pointing me at this)
+- Got rid of warnings related to obsolete platform enums in sample scripts.
+
+## [3.0.4]
+### Added
+- Support for iOS simulator.
+- ObiClothPicker (and ObiClothDragger) now also work with skinned cloth meshes.
+- Faster collision contact generation.
+
+### Fixed
+- Fixed tearable cloth creation from GameObject menu, as it created regular cloth instead.
+- Fixed memory alignment issue that could potentially cause a crash in 32 bit standalone projects.
+
+## [3.0.3]
+
+### Fixed
+- Bug that caused particle property value field to reset to the value of the last particle when painting.
+- Issue that caused Animator to be updated twice per frame in Unity 5.6
+- Adapted ObiClothPicker to Unity 5.6 raycast behavior (inactive colliders can no longer be raycasted individually).
+- Fixed collision stabilization bug that caused particles to sink slightly when over a dynamic rigidbody.
+
+## [3.0.2]
+
+### Added
+- ObiStitcher component allows to stitch together different pieces of cloth.
+- RuntimeCloth sample scene and scripts, that show you how to generate cloth from procedural meshes at runtime.
+- Tether constraints now properly support disjoint meshes (meshes made up of more than 1 separate piece).
+
+### Changed
+- Performance improvement in mesh colliders and edge colliders.
+
+### Fixed
+- Bug that caused ObiParticleRenderer to ignore camera culling mask, and render in all cameras.
+- Memory misalignment in Windows, that caused a crash in some skinned meshes.
+
+## [3.0.1]
+
+### Added
+- ObiClothProxy now supports SkinnedMeshRenderers as a target.
+
+### Changed
+- Increased default particle mass to 0.1kg instead of 0.05kg
+- Better skin constraint information visualization.
+
+### Fixed
+- Bug in hierarchical grid update that caused a crash in some cases when a hash key collision happened.
+- Bug in continuous collision detection that caused particles to be pushed to the other side of very thin objects.
+- Bug in ray/bounding box intersection test caused by non-IEEE754 compliant SSE division by zero.
+- Bug that caused a null exception in skin map assets.
+- Bug that caused spurious transformation of particles in particle editor, when using skinned renderer with non-identity mesh transform.
+
+## [3.0]
+
+#IMPORTANT: You’ll need to re-generate all your topologies and re-initialize ObiCloth components, as internal data layout of previous versions is not compatible with this update.
+
+### Added
+- Welcome window with automatic installer.
+- Upgraded constraint projection to XPBD (extended position-based dynamics). This decouples stiffness and damping from the amount of iterations, resulting in more realistic simulation.
+- Solver constraint enforcement order can now be changed. This allows to change the relative importance of constraints.
+- The solver now uses a task-based threading system which allows to exploit parallelism between multiple solvers.
+- Custom multithreading profiler, that allows to fine-tune performance.
+- Optional local-space simulation, for better numerical accuracy in large-scale worlds and greater control.
+- Support for painting per-vertex skin stiffness. 
+- Support for painting per-vertex tear resistance.
+- Better data visualization for particle editor: particles now are drawn over a flat white version of the mesh, and paint mode shows the property gradient directly on top of the mesh (not only particles anymore).
+- Added pencil paint mode to particle editor.
+- Automatic self-collisions disabling for particles that intersect in rest pose. This allows to set larger particle radii 
+  to ensure better self-collisions, without worrying about constraint fighting.
+- Proxy component now works with skinned meshes. It is also much faster now, all math-intensive methods have been moved to C++ and parallelized.
+- Breakable pin constraints.
+
+### Changed
+- Cloth component has been split in two different components: regular cloth and tearable cloth. This is because
+  regular cloth allows for extra optimizations to be made at initialization time. Also it prevents tether, skin and volume constraints
+  from being used with tearable cloth, since they are not compatible.
+- It is no longer necessary to set Animator’s update mode to update physics manually to avoid 1-frame delay, since animator update cycle is controlled by the cloth component.
+- Actor particle limit is no longer 16384 but 65536, matching Unity’s own vertex limit.
+- Particle editor paint brush falloff has ben changed from linear to gaussian.
+- Distance constraints’ compression stiffness has been replaced by a slack percentage.
+- Mesh updating is now done in c++, which results in better performance.
+- Aerodynamic constraints have been reverted to per-triangle, as this removes the need to supply per-particle normals from Unity
+  and allows the simulation to run as a closed loop in C++, which decreases memory transfers and increases performance.
+
+### Fixed
+- Bug in collision detection against terrains.
+- Crash in 32-bit windows systems due to memory misalignment.
+- Bug that caused slow convergence and excessive jittering for particle-particle sequential contact resolution.
+- Bug that caused out of bounds exception when trying to edit per-particle skin properties on non-skinned cloth.
+- Bug that prevented the particle editor window from appearing on retina displays.
+- Bug in aerodynamic lift force calculation, that caused way too much lift to be applied and resulted in instabilities.
+- Bug that prevented an already initialized cloth to be re-initialized with a different topology.
+- 1-frame delay between particle and rigid body physics, which affected pin and collision constraints.
+
+## [2.2.2]
+
+### Added
+- Support for Android deployment.
+
+### Fixed
+- Bug that caused SkinnedMeshRenderer component to be destroyed when exiting play mode while the cloth is selected.
+
+## [2.2.1]
+
+### Added
+- Support for 2D physics, Box2D, Circle2D and Edge2D colliders.
+- Sleep threshold that keeps particles fixed in place when their kinetic energy is low.
+- Required constraint components are automatically removed from the object when removing the rope component in editor.
+
+### Changed
+- Unity’s collider contactOffset and Obi’s contactOffset are now independent. Obi’s contactOffset has been renamed to “thickness”, and
+can be made negative to allow collider penetration.
+
+### Fixed
+- Issue with box colliders, that caused incorrect contact generation in corners when using contactOffset (now renamed “thickness”).
+- Issue with contact stabilization, which caused jittering and unexpected high velocities for contacts between high-mass particles 
+and low-mass rigid bodies.
+
+## [2.2]
+
+### Added
+- MeshColliders are now fully supported.
+- New component: ObiParticleRenderer enables efficient rendering of particles using impostors, both in editor and build.
+- New component: ObiParticleHandle allows to parent particles and keep them fixed to any transform, without the need of pin constraints.
+
+### Fixed
+- Issue where fixing the rotation of a non-kinematic rigid body caused the inertia tensor to become NaN.
+- Issue where removing all particles from a solver after initializing it caused the solver bounds to become NaN.
+- Fixed memory alignment issue in Windows 32 bit builds, that caused random crashes.
+
+## [2.1]
+
+### Changed
+- Damping parameter is now much more stable and has a physical meaning: percentage of velocity lost per second.
+- New hierarchical spatial partitioning structure, which greatly improves collision performance and allows for wildly different particle sizes.
+- Memory management overhaul. Memory is now allocated/freed in the C++ plugin, which removes the need for manual memory pining which is not fully supported in some platforms.
+
+### Added
+- Enabled Eigen vectorization support. SIMD instructions are used where possible to speed up calculations.
+
+### Removed
+- Solver parameter “Interaction radius”, since it no longer had any use. The new spatial partitioning system automatically
+manages particles of different sizes.
+
+### Fixed
+- Circumvented a bug in IL2CPP that caused iOS projects to crash on startup.
+- Fixed a bug in multithreading which negatively affected performance in some cases when using parallel constraints.
+- Deactivated colliders no longer are considered for collisions.
+- Fixed a bug which caused windows 64 bit editor/builds to hang.
+
+## [2.0.2]
+
+### Added
+- Particle baker component, that allows to bake simulations in cache assets.
+- It is now possible to get per-particle collision information arrays from the solver, which allows to execute
+  custom code in response to collisions.
+
+### Changed
+- Mesh normal recalculation and particle orientation update have been moved to C++, increasing performance of mesh update almost x4.
+  Old projects need to re-generate topology assets and reinitialize existing cloth components.
+- Aerodynamic constraints are now applied per-particle instead of per-triangle. This allows for full
+  parallelism and decreases the amount of constraints, which increases performance.
+
+### Fixed
+- General stability improvements.
+- Bug that caused instabilities with low particle masses.
+- Bug that caused skinned cloth to lag 1 frame behind the character when using Mecanim.
+
+## [2.0.1]
+
+### Added
+- Cloth proxy system that allows arbitrary geometry to follow the simulation of a simpler mesh. For now it
+  only works with regular MeshRenderers, no SkinnedMeshRenderer support.
+- Support for CharacterController colliders.
+
+### Fixed
+- Bug that caused Unity to hang in Windows computers when adding a non-supported collider type to a collider group.
+- Bug that caused Unity to hang in Windows computers when using multithreading.
+- Bug that caused extreme particle speeds to hang Unity when collision constraints were active.
+- Bug that caused volume constraints to not initialize properly in some cases.
+
+## [2.0]
+### Added
+- Full multithreading. Obi will now automatically take advantage of all available cores in your cpu.
+- Support for cloth intercollisions. Cloth objects can now collide with each other.
+- Cloth objects can be deactivated, moved around and reactivated, and the simulation will not be affected by any movement that
+  took place while deactivated. This is useful for teleporting objects around.
+- Proper support for normal mapped cloth, trough optional tangent space update.
+- Collision materials are now used to control friction and stickiness.
+- Particle properties such as mass or skin radius can now be loaded from a texture.
+- New per-particle editable property: collision radius.
+
+### Changed
+- Complete architectural overhaul. This makes 2.0 backwards incompatible with previous versions.
+- Reimplemented the core solver in C++, resulting in substantial performance increase.
+
+### Removed
+- ObiWorld component is now obsolete. A new and more efficient collision system based on collision groups has replaced it.
+- Distance field colliders. Will be re-added in a future release, as they are being implemented in C++ for efficiency.
+- Shape matching constraints. Will be moved to a different Asset Store asset in the future, that focuses on soft and rigid bodies.
+
+### Fixed
+- Bug in aerodynamics lift force calculation.
+- Bug when using multiple colliders attached to the same rigid body, that caused incorrect forces to be applied.
+
+## [1.7][unreleased]
+### Added
+- Overall performance optimizations.
+- SORFactor is now available for SEQUENTIAL solver mode too.
+- Tether constraints added. They allow to dramatically reduce cloth stretching with high density meshes while keeping
+  stretch constraint iteration count low.
+- Adhesion force added to collisions, which allow the cloth to “stick” to objects.
+- Per-cloth multithreading. You can select how many threads you want to run the simulation. Note that
+threads are not shared across GameObjects, so if you use multithreading with several cloth objects you might end
+up with too many threads which will hurt performance instead.
+
+### Changed
+- Memory allocation reduced for collisions and self-collisions.
+- Vast performance improvement in nearest neighbor search, which accelerates self collisions by a factor of 4.
+- Moved step simulation back to FixedUpdate (was changed to Update in 1.6.1 to accommodate interpolation) due to jittering issues 
+ with physics.
+
+### Fixed
+- Bug in interpolation fixed, which caused a null exception to be thrown when creating large cloth objects.
+
+## [1.6.1] - 2015-09-8
+### Added
+- Interpolation modes. Now cloth simulation state can be interpolated between frames, which allows for
+smoother simulation (specially with low Time Scale values, for bullet-time effects and such). No interpolation
+(the classic update mode) is still available and should be always used unless there’s a good reason not to, since
+it is cheaper.
+
+### Fixed
+- Bug in pin constraints that resulted in an OutOfRange exception in the editor.
+
+## [1.6] - 2015-17-9
+### Added
+- Brough back contact offset for cloth. Now the maximum between the cloth contact offset and 
+  the collider’s contact offset is used when detecting collisions.
+- Distance field colliders now support open meshes, trough the “signed” checkbox in distance field assets.
+- New brush selection and brush paint tools in the editor.
+- In the editor, now you can choose to see backfacing particles or not.
+
+### Changed
+- Slightly changed the kay skin constraints work: now radius constraint is applied after backstop constraint.
+
+### Fixed
+- Bug in distance field collider contact offset calculation.
+
+## [1.5] - 2015-09-8
+### Added
+- Speculative contacts. Now all the collision detection pipeline (including self-collisions) is continuous by default,
+  rendering ccd options obsolete. Friction is also resolved at constraint projection, and uses Coulomb’s model. This also
+  makes unnecesary to adjust velocities independently from positions.
+- ObiWorld component makes it possible to efficiently consider lots of colliders.
+- Shape matching constraints. Currently they only support rigid and linear deformation modes.
+- Stretch constraints now have independent stiffness for stretch and compression.
+- Support for SkinnedMeshRenderer, and a new kind of constraint: Skin Constraint.
+
+### Changed
+- Contact offset is no longer a global property of the cloth object. Each collider’s “contactOffset” is used instead.
+
+### Fixed
+- Bug in aerodynamics lift force calculation.
+- Bug in pin constraints impulse calculation.
+- Bug that prevented compiling standalone versions.
+
+## [1.3.1] - 2015-08-8
+### Fixed
+- Bug in editor preview playback, due to timestep not being fixed nor clamped.
+
+## [1.3.0] - 2015-08-7
+### Added
+- Velocity damping.
+- Particle sleeping, which helps performance in mostly static cloth.
+- Cloth objects can be optionally optimized, which removes all fixed particles that are only linked to other fixed particles from the physical representation of the cloth.
+- Marquee particle selection mode in the editor: hold “control” while dragging to select a group of particles.
+
+### Changed
+- Greatly improved performance of editor drawing. 
+- Improved performance of both cloth generation and distance field generation.
+- More realistic aerodynamic model, taking into account cloth velocity and modeling both lift and drag.
+
+### Fixed
+- Bug in world velocity scale in which rotation velocities were wrong. 
+
+## [1.2.0] - 2015-07-31
+### Added
+- Distance colliders.
+- Terrain collider support.
+
+### Fixed
+- Non-manifold meshes no longer throw an exception. HalfEdge.cs politely informs of the situation instead.
+
+### Changed
+- By default the self-collision constraint group is disabled.
+
+
+## [1.1.0] - 2015-07-15
+### Added
+- Constraint groups, with independent solver iteration controls for each constraint group, and
+two kinds of evaluation order.
+
+### Changed
+- ObiCloth inspector controls are now quite different from those of the initial version.
+- Self collision is now faster, implemented using particle-particle interactions only.
+
+### Removed
+- Triangle-particle self-collisions.
+
+### Fixed
+- Pressure constraint stability problems gone.
+
+
+## [1.0.0] - 2015-07-16
+- Initial release.
