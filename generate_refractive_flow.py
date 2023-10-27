@@ -89,15 +89,20 @@ def flowToColor(flow):
 
 if __name__ == "__main__":
     reference_x, reference_y = get_images_graycode("./graycode_imgs")  # the "GT" gray code
-    main_path = r"C:\Users\jiyu\Desktop\Unity-RefractiveFlowRender\HDRPRefraction\train_0909"
-    num_imgs = 10000
-    vis = False
-    input_folder_name = os.path.join(main_path, 'calibration')
-    output_folder_name = os.path.join(main_path, 'flow')
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--main_path", type=str, default="./HDRPRefraction/train_cg", help="Path to main directory")
+    parser.add_argument("--start_idx", type=int, default=0, help="Starting index of images")
+    parser.add_argument("--num_imgs", type=int, default=5000, help="Number of images")
+    parser.add_argument("--vis", action="store_true", help="Enable visualization")
+    args = parser.parse_args()
+
+    input_folder_name = os.path.join(args.main_path, 'calibration')
+    output_folder_name = os.path.join(args.main_path, 'flow')
     os.makedirs(output_folder_name, exist_ok=True)
     # start the for-loop
 
-    for idx in tqdm(range(num_imgs)):
+    for idx in tqdm(range(args.start_idx, args.num_imgs)):
         real_flow_x, real_flow_y = get_flow(os.path.join(input_folder_name, str(idx)), roi=None)
 
         flow_x = real_flow_x - reference_x
