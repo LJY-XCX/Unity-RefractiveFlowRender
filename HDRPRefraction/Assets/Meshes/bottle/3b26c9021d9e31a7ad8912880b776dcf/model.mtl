@@ -1,0 +1,186 @@
+# Blender MTL File: 'blank.blend'
+# Material Count: 18
+
+newmtl material_0_24
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.658823 0.564706 0.439216
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+
+newmtl material_10_8_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture7.png
+
+newmtl material_11_9_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture8.png
+
+newmtl material_12_10_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture9.png
+
+newmtl material_13_11_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture10.png
+map_d ./images/texture10.png
+
+newmtl material_14_12_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture11.png
+map_d ./images/texture11.png
+
+newmtl material_15_13_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture12.png
+
+newmtl material_16_14_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture13.png
+map_d ./images/texture13.png
+
+newmtl material_17_15_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture14.png
+map_d ./images/texture14.png
+
+newmtl material_1_1_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture0.jpg
+
+newmtl material_2_2_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture1.jpg
+
+newmtl material_3_24
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.461177 0.351373 0.687059
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+
+newmtl material_4_24
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+
+newmtl material_5_3_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture2.png
+map_d ./images/texture2.png
+
+newmtl material_6_4_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture3.png
+map_d ./images/texture3.png
+
+newmtl material_7_5_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture4.png
+
+newmtl material_8_6_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 0.000000
+illum 2
+map_Kd ./images/texture5.png
+map_d ./images/texture5.png
+
+newmtl material_9_7_8
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni -1.000000
+d 1.000000
+illum 2
+map_Kd ./images/texture6.png
