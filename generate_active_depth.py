@@ -4,6 +4,7 @@ import numpy as np
 import pyrfuniverse.utils.active_depth_generate as dg
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import argparse
 
 
 left_extrinsic_matrix = np.array([[0., -1., 0., -0.0175],
@@ -33,15 +34,19 @@ main_intrinsic_matrix = np.array([[main_f, 0, main_size/2],
 #                                   [0, 0, 1]])
 # main_intrinsic_matrix = ir_intrinsic_matrix
 
-main_path = fr'./HDRPRefraction/train_cg'
-num_imgs = 5000
-vis = False
-os.makedirs(os.path.join(main_path, 'active_depth'), exist_ok=True)
+parser = argparse.ArgumentParser()
+parser.add_argument("--main_path", type=str, default="./HDRPRefraction/train_cg", help="Path to main directory")
+parser.add_argument("--start_idx", type=int, default=0, help="Starting index of images")
+parser.add_argument("--num_imgs", type=int, default=5000, help="Number of images")
+parser.add_argument("--vis", action="store_true", help="Enable visualization")
+args = parser.parse_args()
+
+os.makedirs(os.path.join(args.main_path, 'active_depth'), exist_ok=True)
 
 # for i in tqdm(range(num_imgs)):
-for i in tqdm(range(0, num_imgs)):
-    ir_left_path = os.path.join(main_path, 'ir_left', f'ir_left_{i}.png')
-    ir_right_path = os.path.join(main_path, 'ir_right', f'ir_right_{i}.png')
+for i in tqdm(range(args.start_idx, args.num_imgs)):
+    ir_left_path = os.path.join(args.main_path, 'ir_left', f'ir_left_{i}.png')
+    ir_right_path = os.path.join(args.main_path, 'ir_right', f'ir_right_{i}.png')
 
     ir_left = cv2.imread(ir_left_path, cv2.IMREAD_COLOR)[..., 2]
     ir_right = cv2.imread(ir_right_path, cv2.IMREAD_COLOR)[..., 2]
@@ -64,14 +69,14 @@ for i in tqdm(range(0, num_imgs)):
     active_depth = cv2.resize(active_depth, (512, 512), interpolation=cv2.INTER_NEAREST)
 
     png_active_depth = (active_depth * 1000).astype(np.uint16)  # TO Unit: mm
-    active_depth_path = os.path.join(main_path, 'active_depth', f'active_depth_{i}.png')
+    active_depth_path = os.path.join(args.main_path, 'active_depth', f'active_depth_{i}.png')
     cv2.imwrite(active_depth_path, png_active_depth)
 
     if vis:
         f, axes = plt.subplots(2, 3)
         axes[0][0].imshow(active_depth)
 
-        true_depth = cv2.imread(os.path.join(main_path, 'depth', f'depth_{i}.png'), -1)
+        true_depth = cv2.imread(os.path.join(args.main_path, 'depth', f'depth_{i}.png'), -1)
         true_depth = true_depth * 3.0 / (2**16)
         axes[0][1].imshow(true_depth)
 
