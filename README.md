@@ -4,32 +4,24 @@ Render refractive objects in Unity HDRP (High Definition Rendering Pipeline), ge
 
 ## Usage
 
-### Step 1: Generate refractive RGB images
+### Step 1: Generate RGB images, calibrations, normals and masks
 
 1. Open the `HDRPRefraction` Unity project.
-2. Navigate to the `RGB` scene.
-3. Select the `controller` GameObject in the Inspector window.
-4. Check the required options (e.g., training set or validation set, number of images).
-5. Click the `Run` button to generate images and records.
+2. Select the `controller` GameObject in the Inspector window.
+3. Check the required options (e.g., training set or validation set, number of images).
+4. Click the `Run` button to generate images and records.
 
-### Step 2: Generate calibration images
+### Step 2: Generate refractive flow
 
-1. In the same Unity project, open the `Calibration` scene.
-2. Configure options in the `controller` GameObject.
-3. Click `Run` to generate graycode images for refractive flow calibration.
-
-### Step 3: Generate binary mask and semantic segmentation mask
-
-1. Open the `RefractiveMask` Unity project and the `Mask` scene.
-2. Configure options in the `controller` GameObject.
-3. Click `Run` to generate binary and semantic masks.
-
-### Step 4: Generate refractive flow
-
-1. Use Python to generate refractive flows:
+An example to generate refractive flows:
    ```shell
-   # Generate for training set
-   python generate_refractive_flow.py train
+   python generate_refractive_flow.py --main_path "./HDRPRefraction/train_cg" --num_imgs 5000
+   ```
+Note: If you exclusively generate calibrations for refractive flow generation, then after this step you can delete the Calibration folder.
 
-   # Generate for validation set
-   python generate_refractive_flow.py valid
+### Step 3: Generate active depth
+
+An example to generate active depth:
+   ```shell
+   python generate_active_depth.py --main_path "./HDRPRefraction/train_cg" --num_imgs 5000
+   ```
