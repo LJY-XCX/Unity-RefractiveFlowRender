@@ -108,7 +108,7 @@ if __name__ == "__main__":
         flow_x = real_flow_x - reference_x
         flow_y = real_flow_y - reference_y
 
-        if vis:
+        if args.vis:
             fig, ax = plt.subplots(1, 2)
             ax[0].imshow(flow_x)
             ax[1].imshow(flow_y)
@@ -116,12 +116,12 @@ if __name__ == "__main__":
             plt.show()
 
         flow = np.concatenate([flow_x[..., None], flow_y[..., None]], axis=2)
-        if vis:
+        if args.vis:
             print(flow.shape, flow.dtype)
         # You can save the flow here to npy file
         np.save(os.path.join(output_folder_name, f'flow_{idx}.npy'), flow)
 
-        if vis:
+        if args.vis:
             # =============================================================================
             # The following code is just for visualization
             # flow = cv2.resize(flow, (512, 512), interpolation=cv2.INTER_NEAREST)
