@@ -72,7 +72,7 @@ for i in tqdm(range(args.start_idx, args.num_imgs)):
     active_depth_path = os.path.join(args.main_path, 'active_depth', f'active_depth_{i}.png')
     cv2.imwrite(active_depth_path, png_active_depth)
 
-    if vis:
+    if args.vis:
         f, axes = plt.subplots(2, 3)
         axes[0][0].imshow(active_depth)
 
