@@ -92,7 +92,7 @@ if __name__ == "__main__":
     reference_x, reference_y = get_images_graycode("./graycode_imgs")  # the "GT" gray code
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--main_path", type=str, default="./HDRPRefraction/train_cg", help="Path to main directory")
+    parser.add_argument("--main_path", type=str, default="./HDRPRefraction/train", help="Path to main directory")
     parser.add_argument("--start_idx", type=int, default=0, help="Starting index of images")
     parser.add_argument("--num_imgs", type=int, default=5000, help="Number of images")
     parser.add_argument("--vis", action="store_true", help="Enable visualization")
