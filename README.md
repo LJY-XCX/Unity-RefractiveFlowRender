@@ -4,11 +4,13 @@ Render refractive objects in Unity HDRP (High Definition Rendering Pipeline), ge
 
 ## Usage
 ### Step 1: Add your prefabs and other resources in Assets (Optional)
+
 1. Put your prefabs under ./Assets/Prefabs.
 2. Put your transparent materials under ./Assets/Recourses/GlassMaterials.
 3. Put your skyboxes under ./Assets/Recourses/HDRIImages.
 4. Put your opaque materials under ./Assets/Recourses/Materials.
 5. Put your table materials under ./Assets/Recourses/TableMaterials.
+
 
 Note: It's not necessary to put your resources in the folders above. Just remember to follow the second point in the step two.
 
@@ -23,7 +25,7 @@ Note: It's not necessary to put your resources in the folders above. Just rememb
 
 An example to generate refractive flows:
    ```shell
-   python generate_refractive_flow.py --main_path "./HDRPRefraction/train_cg" --num_imgs 5000
+   python generate_refractive_flow.py --main_path "./HDRPRefraction/train" --num_imgs 5000
    ```
 Note: If you exclusively generate calibrations for refractive flow generation, then after this step you can delete the Calibration folder.
 
@@ -31,5 +33,5 @@ Note: If you exclusively generate calibrations for refractive flow generation, t
 
 An example to generate active depth:
    ```shell
-   python generate_active_depth.py --main_path "./HDRPRefraction/train_cg" --num_imgs 5000
+   python generate_active_depth.py --main_path "./HDRPRefraction/train" --num_imgs 5000
    ```
